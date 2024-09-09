@@ -11,5 +11,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(3001, () => {
-    console.log('Starting server at localhost:3001')
+    console.log('Starting the server at localhost:3001')
 }) 
