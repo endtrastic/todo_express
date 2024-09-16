@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool site</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-</head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
 <body>
     <div class="container">
         <div class="row">
@@ -14,23 +15,25 @@
                 <div class="card-content">
                   <span class="card-title">ToDO List</span>
                   <div class="row">
-                    <form class="col s12">
+                    <form class="col s12" method="post" action="/update-task">
                       <div class="row">
                         <div class="input-field col s12">
-                          <input placeholder="Task" id="task" type="text"></input>
-                          <label for="fortask">Insert task</label>
+                          <input placeholder="Task" id="task" type="text" name="task" value="New correctly updated task">
+                          <label for="fortask">Update task</label>
+                          <input id="taskId" type="hidden" name="taskId" value="6">
                         </div>
                       </div>
-                      <input type="submit" value="Add task" class="btn">
+                      <input type="submit" value="Update Task" class="btn">
+                      <a class="btn" href="/">Cancel</a>
                     </form>
                   </div>
                 </div>
                 <div class="card-action">
                     <ul class="collection">
-                        <li class="collection-item">Study JS</li>
-                        <li class="collection-item">Study HTML</li>
-                        <li class="collection-item">Study CSS</li>
-                        <li class="collection-item">Study OOP</li>
+                    <% console.log(tasks) %>
+                    <% tasks.forEach((task) => { %>
+                      <li class="collection-item"><%= task %></li>
+                    <%  }) %>
                     </ul>
                 </div>
               </div>
