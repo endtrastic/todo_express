@@ -5,41 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool site</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  </head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 <body>
     <div class="container">
         <div class="row">
             <div class="col s12">
               <div class="card">
                 <div class="card-content">
+                  <% if(error !== null ){ %>
+                  <div class="row teal lighten-4">
+                    <div class="col s12">
+                      <p class="center-align"><%= error %></p>
+                    </div>
+                  </div>
+                  <% } %>
                   <span class="card-title">ToDO List</span>
                   <div class="row">
-                    <form class="col s12" method="post" action="/update-task">
+                    <form class="col s12" method="POST" action="/">
                       <div class="row">
                         <div class="input-field col s12">
-                          <input placeholder="Task" id="task" type="text" name="task" value="New correctly updated task">
-                          <label for="fortask">Update task</label>
-                          <input id="taskId" type="hidden" name="taskId" value="6">
+                          <input placeholder="Task" id="task" type="Text" name="task"></input>
+                          <label for="textarea1">Insert task</label>
                         </div>
                       </div>
-                      <input type="submit" value="Update Task" class="btn">
-                      <a class="btn" href="/">Cancel</a>
+                      <input type="submit" value="Add task" class="btn">
                     </form>
                   </div>
                 </div>
                 <div class="card-action">
-                    <ul class="collection">
-                    <% console.log(tasks) %>
-                    <% tasks.forEach((task) => { %>
-                      <li class="collection-item"><%= task %></li>
-                    <%  }) %>
+                    <ul id="tasks" class="collection">
+                        <% tasks.forEach((task) => { %> 
+                          <li class="collection-item"><%= task.task %>
+                          <a href="delete-task/<%= task.id %>" class="secondary-content"><i class="material-icons">remove</i></a>
+                          <a href="update-task/<%= task.id %>" class="secondary-content"><i class="material-icons">edit</i></a></li>
+                        <% }) %> 
                     </ul>
+                    <a href="/delete-all-tasks" type="submit" value="Clear all" class="btn">Clear all</a>
                 </div>
               </div>
             </div>
           </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        
+    </script>
 </body>
 </html>
