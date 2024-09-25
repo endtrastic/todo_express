@@ -80,40 +80,39 @@ app.get("/delete-task/:taskId", (req, res) => {
 });
 
 app.get("/update-task/:taskId", (req, res) => {
-    readFile("./tasks.json").then((tasks) => {
-      res.render('update-task',  {task: tasks[parseInt(req.params.taskId)], error: null});
-    });
+  readFile("./tasks.json").then((tasks) => {
+      const taskId = parseInt(req.params.taskId);
+      const task = tasks.find((task) => task.id === taskId);
+      res.render('update-task', { task, error: null });
+  });
 });
+
+
 
 app.post("/update-task/:taskId", (req, res) => {
   let error = null
-    if (req.body.task.trim().length === 0) {
-        error = "Task cannot be empty"
-        readFile("./tasks.json").then((tasks) => {
-        res.render('update-task',  {task: tasks[parseInt(req.params.taskId)], error: error});
-        }) 
-    } else {
-  readFile("./tasks.json").then((tasks) => {
-    const taskIndex = tasks.findIndex((task) => task.id === parseInt(req.params.taskId));
-    if (taskIndex !== -1) {
-      const taskToUpdate = tasks[taskIndex]; // Add this line
-      if (taskToUpdate) { // Add this check
-        taskToUpdate.task = req.body.task;
-        const data = JSON.stringify(tasks, null, 2);
-        writeFile("tasks.json", data);
-        res.redirect("/");
-      } else {
-        res.status(404).send("Task not found");
-      }
-    } else {
-      res.status(404).send("Task not found");
-    } 
-    });
-  };
-}) 
+  if (req.body.task.trim().length === 0) {
+      error = "Update Task cannot be empty"
+      readFile("./tasks.json").then((tasks) => {
+        res.render('update-task', { task: tasks.find(task => task.id === parseInt(req.params.taskId)), error: error });
+      });
+  } else {
+      readFile("./tasks.json").then((tasks) => {
+        const taskToUpdate = tasks.find(task => task.id === parseInt(req.params.taskId));
+        if (taskToUpdate) {
+          taskToUpdate.task = req.body.task;
+          const data = JSON.stringify(tasks, null, 2);
+          writeFile("tasks.json", data);
+          res.redirect("/");
+        } else {
+          res.status(404).send("Task not found");
+        }
+      });
+  }
+});
+
 
 app.get("/delete-all-tasks", (req, res) => {
-    console.log("delete all tasks")
     readFile("./tasks.json").then((tasks) => {
         tasks.length = 0;
         let data = JSON.stringify([], null, 0);
